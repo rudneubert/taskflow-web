@@ -45,40 +45,45 @@ export default function RegisterPage() {
   }
 
   return (
-    <main style={{ maxWidth: 360, margin: "4rem auto", padding: "0 1rem" }}>
-      <h1>Criar conta</h1>
+    <main className="container">
+      <div className="card auth-card">
+        <h1>Criar conta</h1>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">E-mail</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <label htmlFor="password">Senha (mínimo 8 caracteres)</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          minLength={8}
-          required
-        />
+          <label htmlFor="password">Senha (mínimo 8 caracteres)</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={8}
+            required
+          />
 
-        {/* Renderização condicional: só aparece se houver erro. */}
-        {error && <p role="alert" style={{ color: "crimson" }}>{error}</p>}
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
+          )}
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Criando..." : "Criar conta"}
-        </button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? "Criando..." : "Criar conta"}
+          </button>
+        </form>
 
-      <p>
-        Já tem conta? <Link to="/login">Entrar</Link>
-      </p>
+        <p className="auth-footer">
+          Já tem conta? <Link to="/login">Entrar</Link>
+        </p>
+      </div>
     </main>
   );
 }

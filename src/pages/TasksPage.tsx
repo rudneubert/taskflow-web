@@ -136,17 +136,17 @@ export default function TasksPage() {
   }
 
   return (
-    <main style={{ maxWidth: 600, margin: "2rem auto", padding: "0 1rem" }}>
-      <header
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
+    <main className="container">
+      <header className="page-header">
         <h1>Minhas tarefas</h1>
-        <button onClick={handleLogout}>Sair</button>
+        <button className="secondary" onClick={handleLogout}>
+          Sair
+        </button>
       </header>
 
       <TaskForm onCreate={handleCreate} />
 
-      <div style={{ marginTop: "1.5rem" }}>
+      <div className="filter">
         <label htmlFor="filter">Mostrar</label>
         <select
           id="filter"
@@ -160,21 +160,18 @@ export default function TasksPage() {
       </div>
 
       {error && (
-        <p role="alert" style={{ color: "crimson" }}>
+        <p role="alert" className="error">
           {error}
         </p>
       )}
 
-      {/* Os três estados da tela: carregando, vazio, lista. */}
       {loading ? (
-        <p>Carregando...</p>
+        <p className="muted">Carregando...</p>
       ) : tasks.length === 0 ? (
-        <p>Nenhuma tarefa por aqui.</p>
+        <p className="muted">Nenhuma tarefa por aqui.</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul className="task-list">
           {tasks.map((task) => (
-            // "key" ajuda o React a identificar cada item da lista.
-            // Use sempre um id único e estável, nunca o índice.
             <TaskItem
               key={task.id}
               task={task}

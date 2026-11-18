@@ -36,49 +36,55 @@ export default function TaskItem({
     setEditing(false);
   }
 
-  if (editing) {
+    if (editing) {
     return (
-      <li>
-        <input
-          aria-label="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          maxLength={100}
-        />
-        <input
-          aria-label="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <button onClick={handleSave} disabled={!title.trim()}>
-          Salvar
-        </button>
-        <button onClick={handleCancel}>Cancelar</button>
+      <li className="task-item">
+        <div className="edit-fields">
+          <input
+            aria-label="Título"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            maxLength={100}
+          />
+          <input
+            aria-label="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="actions">
+          <button onClick={handleSave} disabled={!title.trim()}>
+            Salvar
+          </button>
+          <button className="secondary" onClick={handleCancel}>
+            Cancelar
+          </button>
+        </div>
       </li>
     );
   }
 
   return (
-    <li>
-      <label style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+    <li className="task-item">
+      <label className={`task-title ${task.completed ? "done" : ""}`}>
         <input
           type="checkbox"
           checked={task.completed}
           onChange={() => onToggle(task)}
-          style={{ width: "auto" }}
         />
-        <span
-          style={{
-            // Tarefa concluída aparece riscada.
-            textDecoration: task.completed ? "line-through" : "none",
-          }}
-        >
-          {task.title}
-        </span>
+        <span>{task.title}</span>
       </label>
-      {task.description && <p>{task.description}</p>}
-      <button onClick={() => setEditing(true)}>Editar</button>
-      <button onClick={() => onDelete(task.id)}>Apagar</button>
+      {task.description && (
+        <p className="task-description">{task.description}</p>
+      )}
+      <div className="actions">
+        <button className="secondary" onClick={() => setEditing(true)}>
+          Editar
+        </button>
+        <button className="danger" onClick={() => onDelete(task.id)}>
+          Apagar
+        </button>
+      </div>
     </li>
   );
 }

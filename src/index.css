@@ -1,22 +1,274 @@
-body {
-  font-family: system-ui, sans-serif;
-  margin: 0;
+/* ========== Variáveis (tema claro) ========== */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --text: #1f2430;
+  --text-muted: #6b7280;
+  --border: #d9dce3;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --radius: 8px;
+
+  /* Diz ao navegador que a página suporta os dois temas, para que
+     elementos nativos (checkbox, scrollbar) também se adaptem. */
+  color-scheme: light dark;
 }
 
-label {
-  display: block;
-  margin-top: 1rem;
+/* ========== Tema escuro (automático pelo sistema) ========== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12141a;
+    --surface: #1c1f28;
+    --text: #e8eaf0;
+    --text-muted: #9aa1b2;
+    --border: #2f3441;
+    --primary: #818cf8;
+    --primary-hover: #a5b4fc;
+    --danger: #f87171;
+    --danger-bg: #3b1d1d;
+  }
 }
 
-input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
+/* ========== Base ========== */
+/* border-box: padding e borda passam a contar dentro da largura
+   definida, o que torna os cálculos de layout previsíveis. */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* ========== Layout ========== */
+/* Contêiner centralizado, usado por todas as páginas. */
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Cartão: caixa branca (ou escura) com borda e cantos arredondados. */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.auth-card {
+  margin-top: 4rem;
+}
+
+.auth-card h1 {
+  margin-bottom: 1rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ========== Formulários ========== */
+label {
+  display: block;
+  margin: 1rem 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+input:not([type="checkbox"]),
+select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* :focus-visible mostra o destaque só na navegação por teclado,
+   essencial para acessibilidade. */
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ========== Botões ========== */
 button {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: white;
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
   cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Variações de botão, aplicadas com uma classe extra. */
+button.secondary {
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+button.secondary:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+button.danger {
+  color: var(--danger);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--danger-bg);
+}
+
+/* O botão do cabeçalho não precisa da margem superior padrão. */
+.page-header button {
+  margin-top: 0;
+}
+
+/* ========== Mensagens ========== */
+.error {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.75rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.auth-footer {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--primary);
+}
+
+/* ========== Tarefas ========== */
+.filter {
+  margin-top: 1.5rem;
+  max-width: 200px;
+}
+
+.task-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.task-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.task-title input {
+  width: auto;
+  margin: 0;
+}
+
+/* Tarefa concluída: riscada e esmaecida. */
+.task-title.done span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.task-description {
+  margin: 0.4rem 0 0 1.6rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Linha de botões; flex-wrap permite quebrar linha em telas pequenas. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.actions button {
+  margin-top: 0;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Campos do modo de edição, um embaixo do outro. */
+.edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ========== Responsividade ========== */
+/* Em telas de até 480px: menos espaçamento e botões em largura total. */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  .auth-card {
+    margin-top: 1.5rem;
+  }
+
+  .filter {
+    max-width: none;
+  }
+
+  .actions button {
+    flex: 1;
+  }
 }
