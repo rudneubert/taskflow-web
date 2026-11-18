@@ -30,9 +30,11 @@ export default function TaskForm({ onCreate }: TaskFormProps) {
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="new-title">Nova tarefa</label>
+    return (
+    <form onSubmit={handleSubmit} className="card">
+      <label htmlFor="new-title" style={{ marginTop: 0 }}>
+        Nova tarefa
+      </label>
       <input
         id="new-title"
         value={title}
