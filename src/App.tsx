@@ -1,22 +1,25 @@
-import { useEffect, useState } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL as string;
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import TasksPage from "./pages/TasksPage";
 
 function App() {
-  // useState cria uma variável de "estado": quando ela muda, o
-  // React redesenha o componente com o novo valor.
-  const [status, setStatus] = useState("verificando...");
+  return (
+    <Routes>
+      {/* Rotas públicas */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-  // useEffect executa código DEPOIS que o componente aparece na
-  // tela. O [] no final significa "rode só uma vez".
-  useEffect(() => {
-    fetch(`${API_URL}/health`)
-      .then((res) => res.json())
-      .then((data) => setStatus(data.status))
-      .catch(() => setStatus("API fora do ar ou bloqueada por CORS"));
-  }, []);
+      {/* Rotas protegidas: ficam dentro do ProtectedRoute. */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<TasksPage />} />
+      </Route>
 
-  return <h1>Status da API: {status}</h1>;
+      {/* Qualquer endereço desconhecido volta para a raiz. */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 }
 
 export default App;
